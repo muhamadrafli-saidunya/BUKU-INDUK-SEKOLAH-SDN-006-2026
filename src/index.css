@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+@media print {
+  /* Hide non-printable elements like navigation, topbar, and sidebars */
+  #topbar,
+  #sidebar,
+  nav,
+  aside,
+  .no-print,
+  .print-hidden {
+    display: none !important;
+  }
+
+  /* Explicitly guarantee Kop Surat and its logos/content appear clearly on print */
+  .kop-surat-header,
+  div.kop-surat-header {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  .kop-surat-header * {
+    visibility: visible !important;
+  }
+
+  .kop-surat-header img,
+  .kop-surat-header svg {
+    display: inline-block !important;
+    visibility: visible !important;
+    max-height: 75px !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 11pt !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .print-page {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 10mm 12mm !important;
+    box-shadow: none !important;
+    border: none !important;
+    page-break-after: always;
+  }
+
+  .print-page:last-child {
+    page-break-after: avoid;
+  }
+
+  /* Keep table borders crisp in print */
+  table, th, td {
+    border-color: #000000 !important;
+  }
+
+  /* Prevent page breaks inside cards or table rows */
+  tr, .avoid-break {
+    page-break-inside: avoid;
+  }
+}
+
+/* Custom crisp scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
