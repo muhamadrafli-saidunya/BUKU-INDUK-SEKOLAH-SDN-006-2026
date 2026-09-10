@@ -11,6 +11,7 @@ export type UserRole = 'admin' | 'user' | 'umum';
 export interface ParentInfo {
   nama: string;
   nik: string;
+  tahunLahir?: string | number;
   tempatLahir?: string;
   tanggalLahir?: string;
   agama: Religion;
@@ -26,6 +27,7 @@ export interface ParentInfo {
 export interface GuardianInfo {
   nama: string;
   nik?: string;
+  tahunLahir?: string | number;
   hubungan: string;
   pendidikan?: string;
   pekerjaan?: string;
@@ -150,6 +152,28 @@ export interface Student {
   status: StudentStatus;
   tahunMasuk: string;
   fotoUrl?: string;
+
+  // Dapodik Kemdikbud Extended Attributes
+  usia?: number | string;
+  skhun?: string;
+  penerimaKps?: string;
+  noKps?: string;
+  noPesertaUN?: string;
+  noSeriIjazah?: string;
+  penerimaKip?: string;
+  nomorKip?: string;
+  namaDiKip?: string;
+  nomorKks?: string;
+  noRegistrasiAktaLahir?: string;
+  bank?: string;
+  nomorRekeningBank?: string;
+  rekeningAtasNama?: string;
+  layakPip?: string;
+  alasanLayakPip?: string;
+  kebutuhanKhusus?: string;
+  lintang?: string;
+  bujur?: string;
+  lingkarKepala?: number;
 
   // Modul Lanjutan
   mutasi?: MutationRecord;

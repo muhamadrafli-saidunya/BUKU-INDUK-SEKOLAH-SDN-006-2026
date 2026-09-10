@@ -220,7 +220,7 @@ export const ImportExcelModal: React.FC<ImportExcelModalProps> = ({ isOpen, onCl
                     </h4>
                   </div>
                   <p className="text-xs text-slate-500 dark:text-slate-400 pl-8">
-                    Gunakan template resmi yang telah memuat 60+ kolom field buku induk (NIS, NISN, NIK, Alamat, Orang Tua, dll) lengkap dengan 2 contoh baris pengisian dan lembar panduan.
+                    Gunakan template resmi berurutan 67 kolom field Dapodik Kemdikbud (No, Nama, NIPD, JK, NISN, Tempat/Tgl Lahir, Rombel, NIK, Usia, Agama, Alamat, Data Ayah/Ibu/Wali, KIP, PIP, Rekening Bank, Fisik, dll) lengkap dengan 2 baris contoh dan lembar panduan pengisian.
                   </p>
                 </div>
 
@@ -237,7 +237,7 @@ export const ImportExcelModal: React.FC<ImportExcelModalProps> = ({ isOpen, onCl
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-[11px] text-slate-600 dark:text-slate-400">
                 <div className="flex items-start gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-800">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                  <span><strong>Kolom Wajib:</strong> Nama Lengkap, NIS/No Induk, Jenis Kelamin (L/P), & Kelas.</span>
+                  <span><strong>Kolom Utama:</strong> Nama, NIPD (NIS), JK (L/P), NISN, & Rombel/Kelas.</span>
                 </div>
                 <div className="flex items-start gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 dark:border-slate-800">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
