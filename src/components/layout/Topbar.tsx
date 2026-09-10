@@ -45,6 +45,7 @@ import { EditLogoModal } from '../modals/EditLogoModal';
 interface TopbarProps {
   onToggleSidebar?: () => void;
   onOpenSidebar?: () => void;
+  isSidebarOpen?: boolean;
   onOpenAddModal?: () => void;
   onOpenActivityLog?: () => void;
   onOpenActivityLogs?: () => void;
@@ -55,13 +56,14 @@ interface TopbarProps {
 export const Topbar: React.FC<TopbarProps> = ({
   onToggleSidebar,
   onOpenSidebar,
+  isSidebarOpen,
   onOpenAddModal,
   onOpenActivityLog,
   onOpenActivityLogs,
   setActiveTab,
   onSelectStudentDetail,
 }) => {
-  const handleToggle = onOpenSidebar || onToggleSidebar || (() => {});
+  const handleToggle = onToggleSidebar || onOpenSidebar || (() => {});
   const handleActivityLogs = onOpenActivityLogs || onOpenActivityLog || (() => {});
   const { 
     schoolProfile, 
@@ -107,9 +109,11 @@ export const Topbar: React.FC<TopbarProps> = ({
       {/* Left section: Hamburger & Global Search */}
       <div className="flex items-center gap-3 md:gap-4 flex-1 max-w-xl">
         <button
+          id="btn-toggle-sidebar"
           onClick={handleToggle}
-          className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 lg:hidden focus:outline-hidden"
-          aria-label="Toggle menu"
+          className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-hidden transition-colors cursor-pointer"
+          title={isSidebarOpen ? "Ciutkan Menu Samping" : "Lebarkan Menu Samping"}
+          aria-label="Toggle menu sidebar"
         >
           <Menu className="w-5 h-5" />
         </button>

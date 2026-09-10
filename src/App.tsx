@@ -43,7 +43,28 @@ const MainAppContent: React.FC = () => {
 
   // Navigation state
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('buku_induk_sidebar_open');
+      if (saved !== null) {
+        return saved === 'true';
+      }
+      return window.innerWidth >= 1024;
+    }
+    return true;
+  });
+
+  const handleToggleSidebar = (open?: boolean) => {
+    setIsSidebarOpen(prev => {
+      const next = open !== undefined ? open : !prev;
+      try {
+        localStorage.setItem('buku_induk_sidebar_open', String(next));
+      } catch {
+        // ignore
+      }
+      return next;
+    });
+  };
 
   // Selected student for detail/print views
   const [selectedStudentId, setSelectedStudentId] = useState<string | undefined>(undefined);
@@ -154,15 +175,17 @@ const MainAppContent: React.FC = () => {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
         isOpen={isSidebarOpen}
-        setIsOpen={setIsSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
+        setIsOpen={handleToggleSidebar}
+        onClose={() => handleToggleSidebar(false)}
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden transition-all duration-300 ease-in-out">
         {/* Topbar */}
         <Topbar
-          onOpenSidebar={() => setIsSidebarOpen(true)}
+          isSidebarOpen={isSidebarOpen}
+          onToggleSidebar={() => handleToggleSidebar()}
+          onOpenSidebar={() => handleToggleSidebar()}
           onOpenActivityLogs={() => setIsActivityLogModalOpen(true)}
           setActiveTab={setActiveTab}
           onSelectStudentDetail={handleSelectStudentDetail}
@@ -170,7 +193,7 @@ const MainAppContent: React.FC = () => {
 
         {/* Dynamic Page Views */}
         <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
-          <div className="max-w-7xl mx-auto">
+          <div className="w-full max-w-7xl mx-auto transition-all duration-300 ease-in-out">
             {activeTab === 'dashboard' && (
               <DashboardView
                 setActiveTab={setActiveTab}

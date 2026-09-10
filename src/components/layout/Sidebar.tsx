@@ -187,18 +187,74 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <aside
         id="sidebar"
         className={cn(
-          "fixed top-0 bottom-0 left-0 z-50 flex flex-col bg-[#002b80] text-white border-r border-[#001f5c] transition-all duration-300 ease-in-out shadow-xl",
-          isOpen ? "w-64" : "-translate-x-full lg:translate-x-0 lg:w-20"
+          "flex flex-col bg-[#002b80] text-white border-r border-[#001f5c] transition-all duration-300 ease-in-out",
+          // Mobile: fixed overlay drawer
+          "fixed top-0 bottom-0 left-0 z-50 shadow-2xl lg:shadow-none",
+          isOpen ? "translate-x-0 w-64" : "-translate-x-full w-64",
+          // Desktop: static in-flow flex item that shifts the main view and lets it adjust its space
+          "lg:static lg:translate-x-0 lg:z-auto shrink-0 h-full",
+          isOpen ? "lg:w-64" : "lg:w-20"
         )}
       >
         {/* Header Branding */}
-        <div className="flex items-center justify-between h-16 px-3.5 border-b border-[#003da6] bg-[#002266]">
-          <div className="flex items-center gap-2.5 overflow-hidden">
+        <div className={cn(
+          "flex items-center h-16 border-b border-[#003da6] bg-[#002266] transition-all duration-300",
+          isOpen ? "justify-between px-3.5" : "justify-center px-2"
+        )}>
+          {isOpen ? (
+            <>
+              <div className="flex items-center gap-2.5 overflow-hidden">
+                <button
+                  type="button"
+                  onClick={handleOpenEditLogo}
+                  className="relative group w-10 h-10 rounded-xl bg-white/10 p-1 flex items-center justify-center text-slate-950 font-black shadow-md shrink-0 border border-white/20 hover:border-amber-400 hover:scale-105 transition-all cursor-pointer overflow-hidden"
+                  title="Klik untuk Mengubah Logo & Lambang Sekolah"
+                >
+                  {schoolProfile.logoUrl ? (
+                    <img 
+                      src={schoolProfile.logoUrl} 
+                      alt="Logo Sekolah" 
+                      className="w-full h-full object-contain"
+                      referrerPolicy="no-referrer"
+                    />
+                  ) : (
+                    <TutWuriHandayaniSDLogo className="w-full h-full" />
+                  )}
+                  <div className="absolute inset-0 bg-slate-950/80 text-[7px] leading-tight text-amber-300 font-black flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Camera className="w-3.5 h-3.5 text-amber-300 mb-0.5" />
+                    <span>UBAH</span>
+                  </div>
+                </button>
+                <div className="flex flex-col truncate">
+                  <span className="font-extrabold text-sm tracking-wide text-white leading-tight truncate">
+                    BUKU INDUK
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleOpenEditLogo}
+                    className="text-[11px] font-medium text-amber-300 hover:text-amber-200 hover:underline truncate text-left flex items-center gap-1 group/btn cursor-pointer"
+                    title="Klik untuk Ubah Logo & Nama Sekolah"
+                  >
+                    <span className="truncate">{schoolProfile.namaSekolah}</span>
+                    <Sparkles className="w-3 h-3 opacity-0 group-hover/btn:opacity-100 text-amber-300 shrink-0 transition-opacity" />
+                  </button>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => handleToggle(false)}
+                className="p-1.5 rounded-md text-blue-200 hover:text-white hover:bg-blue-800/60 hidden lg:flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                title="Ciutkan Sidebar (Tampilan Ringkas)"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+            </>
+          ) : (
             <button
               type="button"
-              onClick={handleOpenEditLogo}
+              onClick={() => handleToggle(true)}
               className="relative group w-10 h-10 rounded-xl bg-white/10 p-1 flex items-center justify-center text-slate-950 font-black shadow-md shrink-0 border border-white/20 hover:border-amber-400 hover:scale-105 transition-all cursor-pointer overflow-hidden"
-              title="Klik untuk Mengubah Logo & Lambang Sekolah"
+              title="Klik untuk Lebarkan Menu Samping"
             >
               {schoolProfile.logoUrl ? (
                 <img 
@@ -210,44 +266,32 @@ export const Sidebar: React.FC<SidebarProps> = ({
               ) : (
                 <TutWuriHandayaniSDLogo className="w-full h-full" />
               )}
-              <div className="absolute inset-0 bg-slate-950/80 text-[7px] leading-tight text-amber-300 font-black flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <Camera className="w-3.5 h-3.5 text-amber-300 mb-0.5" />
-                <span>UBAH</span>
+              <div className="absolute inset-0 bg-blue-900/80 text-[7px] leading-tight text-amber-300 font-black flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <ChevronRight className="w-4 h-4 text-amber-300" />
               </div>
             </button>
-            {isOpen && (
-              <div className="flex flex-col truncate">
-                <span className="font-extrabold text-sm tracking-wide text-white leading-tight truncate">
-                  BUKU INDUK
-                </span>
-                <button
-                  type="button"
-                  onClick={handleOpenEditLogo}
-                  className="text-[11px] font-medium text-amber-300 hover:text-amber-200 hover:underline truncate text-left flex items-center gap-1 group/btn cursor-pointer"
-                  title="Klik untuk Ubah Logo & Nama Sekolah"
-                >
-                  <span className="truncate">{schoolProfile.namaSekolah}</span>
-                  <Sparkles className="w-3 h-3 opacity-0 group-hover/btn:opacity-100 text-amber-300 shrink-0 transition-opacity" />
-                </button>
-              </div>
-            )}
-          </div>
-          <button
-            onClick={() => handleToggle(!isOpen)}
-            className="p-1.5 rounded-md text-blue-200 hover:text-white hover:bg-blue-800/60 hidden lg:flex items-center justify-center transition-colors cursor-pointer"
-            title={isOpen ? 'Ciutkan Sidebar' : 'Lebarkan Sidebar'}
-          >
-            {isOpen ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-          </button>
+          )}
         </div>
 
+        {/* Quick expand strip button on desktop when collapsed */}
+        {!isOpen && (
+          <button
+            type="button"
+            onClick={() => handleToggle(true)}
+            className="hidden lg:flex w-full items-center justify-center py-2 bg-[#001f5c] hover:bg-blue-700 text-blue-200 hover:text-white transition-colors cursor-pointer border-b border-[#003399]"
+            title="Klik untuk Lebarkan Menu Samping"
+          >
+            <ChevronRight className="w-4 h-4 text-amber-300 animate-pulse" />
+          </button>
+        )}
+
         {/* User Role Indicator Banner */}
-        <div className="px-3 py-2.5 bg-[#001d52] border-b border-[#003399]">
-          <div className="flex items-center gap-2.5">
+        <div className={cn("py-2.5 bg-[#001d52] border-b border-[#003399] transition-all", isOpen ? "px-3" : "px-2 flex justify-center")}>
+          <div className={cn("flex items-center", isOpen ? "gap-2.5" : "justify-center")}>
             <div className={cn(
-              "w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0",
+              "w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 shadow-xs",
               currentRole === 'admin' ? 'bg-amber-500 text-slate-950' : currentRole === 'user' ? 'bg-emerald-500 text-white' : 'bg-slate-400 text-slate-900'
-            )}>
+            )} title={!isOpen ? (currentRole === 'admin' ? 'Kepsek / Admin TU' : currentRole === 'user' ? 'Guru / Wali Kelas' : 'Tamu / Umum') : undefined}>
               {currentRole === 'admin' ? <ShieldCheck className="w-4 h-4" /> : currentRole === 'user' ? <UserCircle className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </div>
             {isOpen && (
@@ -277,10 +321,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
             return (
               <div key={category} className="space-y-1">
-                {isOpen && (
+                {isOpen ? (
                   <div className="px-3 text-[10px] font-bold uppercase tracking-wider text-blue-300/80">
                     {category}
                   </div>
+                ) : (
+                  <div className="my-1 border-t border-[#003da6]/40 mx-2" />
                 )}
                 {itemsInCategory.map((item) => {
                   const Icon = item.icon;
@@ -300,7 +346,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         }
                       }}
                       className={cn(
-                        "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold transition-all duration-150 relative group cursor-pointer",
+                        "w-full flex items-center rounded-lg text-xs font-semibold transition-all duration-150 relative group cursor-pointer",
+                        isOpen ? "gap-3 px-3 py-2" : "justify-center p-2.5",
                         isActive
                           ? "bg-amber-500 text-slate-950 shadow-md font-bold"
                           : "text-blue-100 hover:bg-[#003da6] hover:text-white"
@@ -323,8 +370,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
                       {/* Tooltip for collapsed state */}
                       {!isOpen && (
-                        <div className="absolute left-full ml-2 px-2.5 py-1 bg-slate-900 text-white text-xs font-medium rounded-md shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 whitespace-nowrap">
-                          {item.label}
+                        <div className="absolute left-full ml-2.5 px-2.5 py-1.5 bg-slate-900 text-white text-xs font-medium rounded-lg shadow-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-50 whitespace-nowrap flex items-center gap-1.5 border border-slate-700">
+                          <span>{item.label}</span>
+                          {item.badge !== undefined && (
+                            <span className="px-1.5 py-0.2 bg-amber-400 text-slate-950 font-extrabold text-[10px] rounded">
+                              {item.badge}
+                            </span>
+                          )}
                         </div>
                       )}
                     </button>
@@ -341,11 +393,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
             id="btn-toggle-dark-mode-sidebar"
             onClick={toggleDarkMode}
             className={cn(
-              "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold transition-all group cursor-pointer",
+              "w-full flex items-center rounded-lg text-xs font-semibold transition-all group cursor-pointer",
+              isOpen ? "gap-3 px-3 py-2" : "justify-center p-2.5",
               darkMode 
                 ? "bg-slate-900/70 hover:bg-slate-900 text-amber-300 border border-amber-400/30" 
-                : "text-blue-100 hover:text-white hover:bg-white/10",
-              !isOpen && "justify-center"
+                : "text-blue-100 hover:text-white hover:bg-white/10"
             )}
             title={darkMode ? 'Beralih ke Mode Terang' : 'Beralih ke Mode Gelap'}
           >
@@ -370,8 +422,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <button
             onClick={() => logout()}
             className={cn(
-              "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-red-200 hover:text-white hover:bg-red-950/60 transition-colors group cursor-pointer",
-              !isOpen && "justify-center"
+              "w-full flex items-center rounded-lg text-xs font-semibold text-red-200 hover:text-white hover:bg-red-950/60 transition-colors group cursor-pointer",
+              isOpen ? "gap-3 px-3 py-2" : "justify-center p-2.5"
             )}
             title="Keluar / Ganti Akun"
           >
