@@ -166,7 +166,7 @@ const MainAppContent: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-100 dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100">
+    <div className="flex h-screen overflow-hidden bg-slate-100 dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 print:h-auto print:overflow-visible print:bg-white print:block">
       {/* Sidebar (Desktop & Mobile Drawer) */}
       <Sidebar
         activeTab={activeTab}
@@ -180,7 +180,7 @@ const MainAppContent: React.FC = () => {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden transition-all duration-300 ease-in-out">
+      <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden transition-all duration-300 ease-in-out print:overflow-visible print:block print:h-auto">
         {/* Topbar */}
         <Topbar
           isSidebarOpen={isSidebarOpen}
@@ -192,8 +192,8 @@ const MainAppContent: React.FC = () => {
         />
 
         {/* Dynamic Page Views */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
-          <div className="w-full max-w-7xl mx-auto transition-all duration-300 ease-in-out">
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 transition-all duration-300 ease-in-out print:overflow-visible print:p-0 print:m-0 print:block">
+          <div className="w-full max-w-7xl mx-auto transition-all duration-300 ease-in-out print:max-w-none print:w-full print:m-0 print:p-0">
             {activeTab === 'dashboard' && (
               <DashboardView
                 setActiveTab={setActiveTab}

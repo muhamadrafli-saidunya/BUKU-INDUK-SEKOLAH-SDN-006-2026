@@ -179,7 +179,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Mobile overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-40 lg:hidden"
+          className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-40 lg:hidden no-print print:hidden"
           onClick={handleClose}
         />
       )}
@@ -187,7 +187,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <aside
         id="sidebar"
         className={cn(
-          "flex flex-col bg-[#002b80] text-white border-r border-[#001f5c] transition-all duration-300 ease-in-out",
+          "flex flex-col bg-[#002b80] text-white border-r border-[#001f5c] transition-all duration-300 ease-in-out no-print print:hidden",
           // Mobile: fixed overlay drawer
           "fixed top-0 bottom-0 left-0 z-50 shadow-2xl lg:shadow-none",
           isOpen ? "translate-x-0 w-64" : "-translate-x-full w-64",

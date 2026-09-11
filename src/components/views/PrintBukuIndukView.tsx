@@ -23,6 +23,10 @@ export const PrintBukuIndukView: React.FC<PrintBukuIndukViewProps> = ({
   const student = students.find((s) => s.id === activeStudentId) || students[0];
 
   const handlePrint = () => {
+    // Unfocus any active button or control so no focus ring/popover is visible in print preview
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
     window.print();
   };
 
@@ -38,9 +42,9 @@ export const PrintBukuIndukView: React.FC<PrintBukuIndukViewProps> = ({
   }
 
   return (
-    <div className="space-y-6 pb-16">
+    <div className="space-y-6 pb-16 print:space-y-0 print:pb-0 print:p-0 print:m-0">
       {/* Print Control Toolbar (Hidden during print) */}
-      <div className="no-print p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-wrap items-center justify-between gap-4">
+      <div className="no-print print:hidden p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <button
             onClick={onBack}
@@ -89,7 +93,7 @@ export const PrintBukuIndukView: React.FC<PrintBukuIndukViewProps> = ({
       </div>
 
       {/* DOCUMENT PREVIEW CONTAINER (Styled exact to Indonesian Government Standard Buku Induk Siswa) */}
-      <div className="max-w-[210mm] mx-auto bg-white text-slate-950 p-[12mm] shadow-2xl rounded-sm print:p-0 print:shadow-none print:m-0 print:w-full font-serif text-[12px] leading-relaxed">
+      <div className="max-w-[210mm] mx-auto bg-white text-slate-950 p-[12mm] shadow-2xl rounded-sm print:max-w-none print:bg-white print:p-0 print:shadow-none print:m-0 print:w-full print:border-none print:rounded-none font-serif text-[12px] leading-relaxed">
         
         {/* ================= PAGE 1 ================= */}
         <div className="print-page relative space-y-4">
@@ -341,9 +345,15 @@ export const PrintBukuIndukView: React.FC<PrintBukuIndukViewProps> = ({
 
           {/* Page 1 Bottom Footer & Photo Box */}
           <div className="pt-4 flex justify-between items-end">
-            <div className="w-24 h-32 border-2 border-dashed border-slate-600 flex flex-col items-center justify-center text-[10px] text-slate-500 font-sans text-center p-1 bg-slate-50">
+            <div className="w-24 h-32 border-2 border-dashed border-slate-600 flex flex-col items-center justify-center text-[10px] text-slate-500 font-sans text-center p-1 bg-slate-50 print:bg-transparent">
               {student?.fotoUrl && !isBlankMode ? (
-                <img src={student.fotoUrl} alt="Pas Foto" className="w-full h-full object-cover" />
+                <img
+                  src={student.fotoUrl}
+                  alt="Pas Foto"
+                  className="w-full h-full object-cover print:opacity-100"
+                  referrerPolicy="no-referrer"
+                  crossOrigin="anonymous"
+                />
               ) : (
                 <>
                   <span>PAS FOTO</span>
@@ -577,8 +587,9 @@ export const PrintBukuIndukView: React.FC<PrintBukuIndukViewProps> = ({
                   <img
                     src={schoolProfile.stempelUrl}
                     alt="Stempel Sekolah"
-                    className="w-24 h-14 object-contain opacity-85 absolute right-4"
+                    className="w-24 h-14 object-contain opacity-85 absolute right-4 print:opacity-100"
                     referrerPolicy="no-referrer"
+                    crossOrigin="anonymous"
                   />
                 ) : (
                   <div className="w-24 h-10 border border-blue-900/30 rounded flex items-center justify-center text-[8px] text-blue-900 font-bold">
